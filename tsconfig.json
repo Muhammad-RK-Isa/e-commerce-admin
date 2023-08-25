@@ -4,6 +4,8 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -15,7 +17,11 @@
     "incremental": true,
     "plugins": [
       {
-        "name": "next"
+        "name": "next",
+      },
+      {
+        "name": "@typescript/vfs",
+        "alwaysEmitTypes": true
       }
     ],
     "paths": {
