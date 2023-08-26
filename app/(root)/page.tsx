@@ -1,31 +1,18 @@
-import { UserButton } from "@clerk/nextjs"
+"use client";
 
-import { Button } from "@/components/ui/button"
+import { useEffect } from "react";
 
-export default function HomePage() {
-    return (
-        <>
-            <div className="flex items-center justify-between m-4">
-                <div>Hello Admin Dashboard.</div>
-                <UserButton />
-            </div>
-            <div className="flex gap-8 mt-20 mx-4 flex-wrap">
-                <Button variant="default">
-                    Default
-                </Button>
-                <Button variant="secondary">
-                    Secondary
-                </Button>
-                <Button variant="destructive">
-                    Destructive
-                </Button>
-                <Button variant="ghost">
-                    Ghost
-                </Button>
-                <Button variant="link">
-                    Link
-                </Button>
-            </div>
-        </>
-    )
+import useStoreModal from "@/hooks/use-store-modal";
+
+export default function SetupPage() {
+
+    const { isOpen, onOpen } = useStoreModal();
+
+    useEffect(() => {
+        if (!isOpen) {
+            onOpen();
+        };
+    }, [isOpen, onOpen])
+
+    return;
 };
