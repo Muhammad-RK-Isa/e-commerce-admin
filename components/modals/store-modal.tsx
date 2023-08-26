@@ -1,12 +1,15 @@
 "use client";
 
-import * as z from "zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
+import axios from "axios";
 
 import Modal from "@/components/ui/modal";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import {
     Form,
     FormControl,
@@ -22,19 +25,33 @@ const formSchema = z.object({
 
 export default function StoreModal() {
 
+    const [loading, setLoading] = useState(false);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: ""
         }
-    })
+    });
 
+    const { toast } = useToast();
     const { isOpen, onClose } = useStoreModal();
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.table(values);
-        console.log(values);
-    }
+        try {
+            setLoading(true);
+            const response = await axios.post('/api/stores', values)
+            window.location.assign(`/${response.data.id}`);
+        } catch (error) {
+            toast({
+                title: "Couldn't create your store!",
+                description: "Please try again.",
+                variant: "destructive"
+            })
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <Modal
@@ -54,14 +71,25 @@ export default function StoreModal() {
                                     <FormItem>
                                         <FormLabel>Name</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="What's the name of your store?" {...field} />
+                                            <Input
+                                                disabled={loading}
+                                                placeholder="What's the name of your store?"
+                                                {...field}
+                                            />
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
                             <div className="flex items-center justify-end pt-6 space-x-2">
-                                <Button variant="outline" onClick={onClose}>Cancel</Button>
-                                <Button type="submit">Create</Button>
+                                <Button
+                                    variant="outline"
+                                    onClick={onClose}
+                                    disabled={loading}
+                                >Cancel</Button>
+                                <Button
+                                    type="submit"
+                                    disabled={loading}
+                                >Create</Button>
                             </div>
                         </form>
                     </Form>
