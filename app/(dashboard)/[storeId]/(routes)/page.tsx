@@ -1,3 +1,4 @@
+import Navbar from "@/components/navbar";
 import prismadb from "@/lib/prismadb"
 
 export default async function DashboardPage({
@@ -15,6 +16,7 @@ export default async function DashboardPage({
     if (store)
         return (
             <>
+                <Navbar/>
                 <div>This is the Dashboard.</div>
                 Hello, {store.name}
             </>

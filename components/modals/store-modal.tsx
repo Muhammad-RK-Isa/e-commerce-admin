@@ -63,7 +63,7 @@ export default function StoreModal() {
             <div>
                 <div className="space-y-4 py-2 pb-2">
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <form onSubmit={form.handleSubmit(onSubmit)}> 
                             <FormField
                                 control={form.control}
                                 name="name"
