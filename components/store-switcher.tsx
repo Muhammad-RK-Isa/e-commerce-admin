@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
     Store as StoreIcon,
@@ -35,11 +35,10 @@ interface StoreSwitcherProps extends PopOverTriggerProps {
 }
 
 export default function StoreSwitcher({
-    className,
     items = []
 }: StoreSwitcherProps) {
 
-    const { isOpen, onOpen } = useStoreModal();
+    const { onOpen } = useStoreModal();
 
     const params = useParams();
     const router = useRouter();
