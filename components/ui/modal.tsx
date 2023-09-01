@@ -10,7 +10,7 @@ import {
 
 interface ModalProps {
     title: string;
-    description: string;
+    description?: string;
     isOpen: boolean;
     onClose: () => void;
     children?: React.ReactNode;
@@ -37,7 +37,13 @@ export default function Modal(
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
-                    <DialogDescription>{description}</DialogDescription>
+                    {
+                        description &&
+                        <DialogDescription>
+                            {description}
+                        </DialogDescription>
+
+                    }
                 </DialogHeader>
                 {children}
             </DialogContent>
