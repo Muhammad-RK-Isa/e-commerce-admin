@@ -54,7 +54,7 @@ export default function StoreSwitcher({
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger>
+            <PopoverTrigger asChild>
                 <Button
                     variant="outline"
                     size="sm"
@@ -112,4 +112,4 @@ export default function StoreSwitcher({
             </PopoverContent>
         </Popover>
     )
-}
+};

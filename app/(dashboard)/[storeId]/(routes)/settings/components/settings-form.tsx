@@ -23,6 +23,8 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { AlertModal } from "@/components/modals/alert-modal";
+import { ApiAlert } from "@/components/ui/api-alert";
+import { useOrigin } from "@/hooks/use-origin";
 
 interface SettingsFormProps {
     initialData: Store
@@ -44,6 +46,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     const params = useParams();
     const router = useRouter();
     const { toast } = useToast();
+    const origin = useOrigin();
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -75,19 +78,24 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
         };
     };
 
-    const removeStore = async () => {
+    const deleteStore = async () => {
         try {
             setLoading(true);
             await axios.delete(`/api/stores/${params.storeId}`);
+            toast({
+                title: "Store deleted."
+            });
             router.refresh();
+            router.push('/');
         } catch (error) {
             toast({
                 variant: "destructive",
                 title: "Something went wrong!",
-                description: `Could not delete <span className="font-bold">${initialData.name}</span>.`,
+                description: `Could not delete <span className="font-bold">${initialData.name}</span>. Make sure you removed all products and categories already.`,
             });
         } finally {
             setLoading(false);
+            setOpen(false);
         };
     };
 
@@ -96,7 +104,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
             <AlertModal
                 isOpen={open}
                 loading={loading}
-                onConfirm={removeStore}
+                onConfirm={deleteStore}
                 onClose={() => setOpen(false)}
             />
             <div className="flex items-center justify-between">
@@ -110,8 +118,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
                     disabled={loading}
                     onClick={() => setOpen(true)}
                 >
-                    <span className="hidden lg:inline-block">Delete {initialData?.name}</span>
-                    <Trash className="h-4 w-4 lg:ml-2" />
+                    <Trash className="h-4 w-4" />
                 </Button>
             </div>
             <Separator />
@@ -146,6 +153,18 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
                     </Button>
                 </form>
             </Form>
+            <Separator />
+
+            <Heading
+                title="Api"
+                description="Api and integration."
+            />
+
+            <ApiAlert
+                title="NEXT_PUBLIC_API_URL"
+                description={`${origin}/api/${params.storeId}`}
+                variant="public"
+            />
         </>
     );
 };

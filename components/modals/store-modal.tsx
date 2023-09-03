@@ -15,13 +15,17 @@ import {
     FormControl,
     FormField,
     FormItem,
-    FormLabel
+    FormLabel,
+    FormMessage
 } from "@/components/ui/form";
 import useStoreModal from "@/hooks/use-store-modal";
 
 const formSchema = z.object({
-    name: z.string().min(1),
-})
+    name: z.string()
+        .refine(value => value.length >= 1, {
+            message: "Store name cannot be empty!"
+        })
+});
 
 export default function StoreModal() {
 
@@ -55,15 +59,15 @@ export default function StoreModal() {
 
     return (
         <Modal
-            title="Create a new store."
-            description="Let's start with creating your very first store to manage your products and customize your shop."
+            title="Create store"
+            description="Create a store to manage your products and customize your store."
             isOpen={isOpen}
             onClose={onClose}
         >
             <div>
                 <div className="space-y-4 py-2 pb-2">
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)}> 
+                        <form onSubmit={form.handleSubmit(onSubmit)}>
                             <FormField
                                 control={form.control}
                                 name="name"
@@ -77,6 +81,7 @@ export default function StoreModal() {
                                                 {...field}
                                             />
                                         </FormControl>
+                                        <FormMessage/>
                                     </FormItem>
                                 )}
                             />
