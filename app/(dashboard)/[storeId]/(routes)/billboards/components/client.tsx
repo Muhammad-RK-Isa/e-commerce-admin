@@ -1,26 +1,30 @@
-"use client";
+"use client"
 
-import { useParams, useRouter } from 'next/navigation';
-import { Plus } from "lucide-react";
+import { useParams, useRouter } from 'next/navigation'
+import { Plus } from "lucide-react"
 
-import { Heading } from "@/components/ui/heading";
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import prismadb from '@/lib/prismadb';
-import { useEffect, useState } from 'react';
+import { Heading } from "@/components/ui/heading"
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { DataTable } from '@/components/ui/data-table'
 
-export const BillboardsClient = () => {
-    
-    const router = useRouter();
-    const params = useParams();
+import { BillboardColumn, columns } from './columns'
 
-    const [initialData, setInitialData] = useState([]);
-    
+
+interface BillboardClientProps {
+    data: BillboardColumn[]
+}
+
+export const BillboardsClient: React.FC<BillboardClientProps> = ({ data }) => {
+
+    const router = useRouter()
+    const params = useParams()
+
     return (
         <>
             <div className="flex items-center justify-between">
                 <Heading
-                    title={`Bilboards (${initialData.length})`}
+                    title={`Bilboards (${data.length})`}
                     description="Manage billboards for your store."
                 />
                 <Button onClick={() => router.push(`/${params.storeId}/billboards/new`)}>
@@ -28,7 +32,8 @@ export const BillboardsClient = () => {
                     Add new
                 </Button>
             </div>
-            <Separator/>
+            <Separator />
+            <DataTable data={data} columns={columns} />
         </>
-    );
-};
+    )
+}
