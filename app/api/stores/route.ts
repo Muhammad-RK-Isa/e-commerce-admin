@@ -9,10 +9,9 @@ export async function POST(
     try {
         const { userId } = auth();
 
-        // Destructure store name from the request body.
         const { name } = await req.json();
 
-        if (!userId) new NextResponse("Unauthorized", { status: 401 });
+        if (!userId) new NextResponse("Unauthenticated", { status: 401 });
         if (!name) new NextResponse("Name is required!", { status: 400 });
 
         const store = await prismadb.store.create({

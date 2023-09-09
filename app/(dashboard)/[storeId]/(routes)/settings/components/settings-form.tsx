@@ -91,7 +91,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
             toast({
                 variant: "destructive",
                 title: "Something went wrong!",
-                description: `Could not delete <span className="font-bold">${initialData.name}</span>. Make sure you removed all products and categories already.`,
+                description: `Could not delete ${initialData.name}. Make sure you removed all products and categories already.`,
             });
         } finally {
             setLoading(false);
@@ -139,7 +139,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
                                     <FormControl>
                                         <Input
                                             disabled={loading}
-                                            placeholder={initialData.name}
+                                            placeholder="Store name"
                                             {...field}
                                         />
                                     </FormControl>
@@ -154,12 +154,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
                 </form>
             </Form>
             <Separator />
-
-            <Heading
-                title="Api"
-                description="Api and integration."
-            />
-
             <ApiAlert
                 title="NEXT_PUBLIC_API_URL"
                 description={`${origin}/api/${params.storeId}`}
