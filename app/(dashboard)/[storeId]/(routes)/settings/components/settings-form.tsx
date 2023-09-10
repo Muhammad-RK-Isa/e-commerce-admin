@@ -25,6 +25,7 @@ import axios from "axios";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { ApiAlert } from "@/components/ui/api-alert";
 import { useOrigin } from "@/hooks/use-origin";
+import useLoader from "@/hooks/use-loader";
 
 interface SettingsFormProps {
     initialData: Store
@@ -45,11 +46,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
 
     const params = useParams();
     const router = useRouter();
-    const { toast } = useToast();
     const origin = useOrigin();
+    const { toast } = useToast();
+    const { isLoading, onLoad, onStop } = useLoader();
 
     const [open, setOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
 
     const form = useForm<SettingsFormValues>({
         resolver: zodResolver(formSchema),
@@ -58,44 +59,44 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
 
     const saveChanges = async (data: SettingsFormValues) => {
         try {
-            setLoading(true);
-            await axios.patch(`/api/stores/${params.storeId}`, data);
-            router.refresh();
+            onLoad()
+            await axios.patch(`/api/stores/${params.storeId}`, data)
+            router.refresh()
 
             toast({
                 title: "Store updated!",
                 description: "All changes are saved.",
-            });
+            })
 
         } catch (error) {
             toast({
                 variant: "destructive",
                 title: "Something went wrong!",
                 description: "Changes are not saved.",
-            });
+            })
         } finally {
-            setLoading(false);
-        };
-    };
+            onStop()
+        }
+    }
 
     const deleteStore = async () => {
         try {
-            setLoading(true);
-            await axios.delete(`/api/stores/${params.storeId}`);
+            onLoad()
+            await axios.delete(`/api/stores/${params.storeId}`)
             toast({
                 title: "Store deleted."
             });
-            router.refresh();
-            router.push('/');
+            router.refresh()
+            router.push('/')
         } catch (error) {
             toast({
                 variant: "destructive",
                 title: "Something went wrong!",
                 description: `Could not delete ${initialData.name}. Make sure you removed all products and categories already.`,
-            });
+            })
         } finally {
-            setLoading(false);
-            setOpen(false);
+            onStop()
+            setOpen(false)
         };
     };
 
@@ -103,7 +104,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
         <>
             <AlertModal
                 isOpen={open}
-                loading={loading}
+                loading={isLoading}
                 onConfirm={deleteStore}
                 onClose={() => setOpen(false)}
             />
@@ -115,7 +116,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
                 <Button
                     variant="destructive"
                     size="sm"
-                    disabled={loading}
+                    disabled={isLoading}
                     onClick={() => setOpen(true)}
                 >
                     <Trash className="h-4 w-4" />
@@ -138,7 +139,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
                                     </FormLabel>
                                     <FormControl>
                                         <Input
-                                            disabled={loading}
+                                            disabled={isLoading}
                                             placeholder="Store name"
                                             {...field}
                                         />
@@ -148,7 +149,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
                             )}
                         />
                     </div>
-                    <Button type="submit" className="ml-auto" disabled={loading}>
+                    <Button type="submit" className="ml-auto" disabled={isLoading}>
                         Save changes
                     </Button>
                 </form>
@@ -160,5 +161,5 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
                 variant="public"
             />
         </>
-    );
+    )
 }

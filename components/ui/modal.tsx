@@ -6,7 +6,7 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle
-} from "@/components/ui/dialog";
+} from "@/components/ui/dialog"
 
 interface ModalProps {
     title: string;
@@ -27,10 +27,8 @@ export default function Modal(
 ) {
 
     const onChange = (open: boolean) => {
-        if (!open) {
-            onClose();
-        };
-    };
+        if (!open) onClose()
+    }
 
     return (
         <Dialog open={isOpen} onOpenChange={onChange}>

@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react"
 
-import StoreModal from "@/components/modals/store-modal"
+import Loader from "@/components/loader"
 
-export default function ModalProvider() {
+export default function LoaderProvider() {
+
     const [isMounted, setIsMounted] = useState(false)
 
     useEffect(() => {
@@ -13,5 +14,5 @@ export default function ModalProvider() {
 
     if (!isMounted) null
 
-    return <StoreModal />
+    return <Loader />
 }
