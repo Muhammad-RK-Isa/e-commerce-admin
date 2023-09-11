@@ -5,6 +5,8 @@ import { ArrowUpDown } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 
+import {CellAction} from "./cell-action"
+
 export type BillboardColumn = {
     id: string
     label: string
@@ -30,4 +32,9 @@ export const columns: ColumnDef<BillboardColumn>[] = [
             )
         }),
     },
+    {
+        id: "actions",
+        cell: ({row}) => <CellAction data={row.original}/>
+
+    }
 ]

@@ -38,8 +38,8 @@ export const ApiAlert: React.FC<ApiAlertProps> = ({
         toast({
             title: "Copied to clipboard!",
             duration: 800
-        });
-    };
+        })
+    }
 
     return (
         <Alert>
