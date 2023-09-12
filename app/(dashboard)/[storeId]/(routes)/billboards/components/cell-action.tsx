@@ -6,6 +6,7 @@ import {
     Trash,
     Copy
 } from "lucide-react"
+import { useRouter, useParams } from "next/navigation"
 
 import {
     DropdownMenu,
@@ -26,6 +27,9 @@ interface CellActionProps {
 export const CellAction: React.FC<CellActionProps> = ({
     data
 }) => {
+    const router = useRouter()
+    const params = useParams()
+
     const onCopy = (id: string) => {
         navigator.clipboard.writeText(id)
         toast({
@@ -50,7 +54,7 @@ export const CellAction: React.FC<CellActionProps> = ({
                     <Copy className="mr-2 h-4 w-4" />
                     Copy Id
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/billboards/${data.id}`)}>
                     <Edit className="mr-2 h-4 w-4" />
                     Edit
                 </DropdownMenuItem>
