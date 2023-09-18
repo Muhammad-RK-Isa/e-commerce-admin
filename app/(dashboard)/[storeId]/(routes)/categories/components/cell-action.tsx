@@ -19,13 +19,13 @@ import {
 import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 
-import { BillboardColumn } from "./columns"
+import { CategoryColumn } from "./columns"
 import { AlertModal } from "@/components/modals/alert-modal"
 import axios from "axios"
 import useLoader from "@/hooks/use-loader"
 
 interface CellActionProps {
-    data: BillboardColumn
+    data: CategoryColumn
 }
 
 export const CellAction: React.FC<CellActionProps> = ({
@@ -49,19 +49,19 @@ export const CellAction: React.FC<CellActionProps> = ({
     const onDelete = async () => {
         try {
             onLoad()
-            await axios.delete(`/api/${params.storeId}/billboards/${data.id}`)
+            await axios.delete(`/api/${params.storeId}/categories/${data.id}`)
             router.refresh()
         } catch (error) {
             toast({
                 title: "Something went wrong!",
-                description: "Billboard could not be deleted.",
+                description: "Category could not be deleted.",
                 variant: "destructive",
                 duration: 500,
             })
         } finally {
             onStop()
             toast({
-                title: "✅ Billboard deleted.",
+                title: "✅ Category deleted.",
                 duration: 1500,
             })
         }

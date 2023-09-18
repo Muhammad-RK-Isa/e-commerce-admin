@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import * as z from "zod";
 import { useState } from "react";
@@ -44,11 +44,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     initialData
 }) => {
 
-    const params = useParams();
-    const router = useRouter();
-    const origin = useOrigin();
-    const { toast } = useToast();
-    const { isLoading, onLoad, onStop } = useLoader();
+    const params = useParams()
+    const router = useRouter()
+    const origin = useOrigin()
+    const { toast } = useToast()
+    const { isLoading, onLoad, onStop } = useLoader()
 
     const [open, setOpen] = useState(false);
 
@@ -66,6 +66,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
             toast({
                 title: "Store updated!",
                 description: "All changes are saved.",
+                duration: 1500,
             })
 
         } catch (error) {
@@ -84,7 +85,8 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
             onLoad()
             await axios.delete(`/api/stores/${params.storeId}`)
             toast({
-                title: "Store deleted."
+                title: "Store deleted.",
+                duration: 1500,
             })
             router.refresh()
             router.push('/')
@@ -104,7 +106,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
         <>
             <AlertModal
                 isOpen={open}
-                loading={isLoading}
                 onConfirm={deleteStore}
                 onClose={() => setOpen(false)}
             />
@@ -154,12 +155,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
                     </Button>
                 </form>
             </Form>
-            <Separator />
-            <ApiAlert
-                title="NEXT_PUBLIC_API_URL"
-                description={`${origin}/api/${params.storeId}`}
-                variant="public"
-            />
         </>
     )
 }

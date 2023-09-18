@@ -38,8 +38,8 @@ export default function StoreModal() {
         }
     });
 
-    const { toast } = useToast();
-    const { isOpen, onClose } = useStoreModal();
+    const { toast } = useToast()
+    const { isOpen, onClose } = useStoreModal()
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
@@ -49,14 +49,14 @@ export default function StoreModal() {
             window.location.assign(`/${response.data.id}`);
         } catch (error) {
             toast({
-                title: "Couldn't create your store!",
+                title: "Something went wrong!",
                 description: "Please try again.",
                 variant: "destructive"
             })
         } finally {
             setLoading(false);
         }
-    };
+    }
 
     return (
         <Modal
@@ -89,7 +89,10 @@ export default function StoreModal() {
                             <div className="flex items-center justify-end pt-6 space-x-2">
                                 <Button
                                     variant="outline"
-                                    onClick={onClose}
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        onClose()
+                                    }}
                                     disabled={loading}
                                 >Cancel</Button>
                                 <Button
